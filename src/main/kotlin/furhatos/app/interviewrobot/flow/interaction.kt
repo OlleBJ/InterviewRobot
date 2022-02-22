@@ -65,7 +65,7 @@ val Doctor : State = state(Interaction){
         goto(Visitors)
     }
     onResponse<No>{
-        furhat.say("Ok")
+        furhat.say("Ok. I hope you feel better soon!")
         goto(Visitors)
     }
 }

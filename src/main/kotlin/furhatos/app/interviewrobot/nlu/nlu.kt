@@ -8,13 +8,13 @@ import furhatos.util.Language
 
 class Good : EnumEntity(stemming = true, speechRecPhrases = true){
     override fun getEnum(lang: Language) : List<String>{
-        return listOf("Good", "fine", "great", "ok")
+        return listOf("Good", "fine", "great", "ok", "terrific")
     }
 }
 
 class Bad : EnumEntity(stemming = true, speechRecPhrases = true){
     override fun getEnum(lang: Language) : List<String>{
-        return listOf("Bad", "horrible", "not good", "not great")
+        return listOf("Bad", "horrible", "not good", "not great", "horrific")
     }
 }
 
