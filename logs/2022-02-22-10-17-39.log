@@ -1,0 +1,12 @@
+10:17:39 [Skill] INFO  Skill:138 - Connecting to Furhat server on 10.200.12.48:1932
+10:17:41 [Broker Client] WARN  Event:194 - Could not set field hash with type class java.lang.String on builder class furhatos.event.monitors.MonitorSkillConnect$Builder : null
+10:17:41 [Broker Client] WARN  Event:196 - Verify that the SDK/Robot and Skill have the same version of furhat-commons
+10:17:41 [InterviewrobotSkill] INFO  InterviewrobotSkill:165 - Starting skill
+10:27:35 [Broker Client] WARN  Event:194 - Could not set field hash with type class java.lang.String on builder class furhatos.event.responses.ResponseSkill$Builder : null
+10:27:35 [Broker Client] WARN  Event:196 - Verify that the SDK/Robot and Skill have the same version of furhat-commons
+10:27:35 [Broker Client] WARN  Event:194 - Could not set field hash with type class java.lang.String on builder class furhatos.event.responses.ResponseSkillAutostart$Builder : null
+10:27:35 [Broker Client] WARN  Event:196 - Verify that the SDK/Robot and Skill have the same version of furhat-commons
+10:32:39 [Broker Client] WARN  Event:194 - Could not set field hash with type class java.lang.String on builder class furhatos.event.responses.ResponseSkill$Builder : null
+10:32:39 [Broker Client] WARN  Event:196 - Verify that the SDK/Robot and Skill have the same version of furhat-commons
+10:32:39 [Broker Client] WARN  Event:194 - Could not set field hash with type class java.lang.String on builder class furhatos.event.responses.ResponseSkillAutostart$Builder : null
+10:32:39 [Broker Client] WARN  Event:196 - Verify that the SDK/Robot and Skill have the same version of furhat-commons
