@@ -108,11 +108,41 @@ val HadNoVisitors : State = state(Interaction){
     onResponse<Yes>{
         furhat.say("I will let the members of staff know so that they can contact your family.")
         furhat.gesture(Gestures.Smile)
-        goto(Olympics)
+        goto(Sleep)
 
     }
     onResponse<No>{
         furhat.say("Ok.")
+        goto(Sleep)
+    }
+}
+
+val Sleep : State = state(Interaction){
+    onEntry{
+        furhat.ask("Have you been sleeping well this last week?")
+        furhat.gesture(Gestures.Smile)
+    }
+    onResponse<Yes>{
+        furhat.say("That's good to hear, sleep is important!")
+        furhat.gesture(Gestures.BigSmile)
+        goto(Olympics)
+    }
+    onResponse<No>{
+        goto(BadSleep)
+    }
+}
+
+val BadSleep : State = state(Interaction){
+    onEntry{
+        furhat.ask("Do you think it is temporary or should I contact the " +
+                "manager so we can figure out how to best help you?")
+    }
+    onResponse<Yes>{
+        furhat.say("Okay, I will let the manager know about your problems, good sleep is very important. ")
+        goto(Olympics)
+    }
+    onResponse<No>{
+        furhat.say("Okay, I hope it won't be a long lasting problem. If so, you can always tell me next time or contact someone from the staff. It is important to sleep well. ")
         goto(Olympics)
     }
 }
@@ -123,6 +153,7 @@ val Olympics : State = state(Interaction){
         furhat.gesture(Gestures.Smile)
     }
     onResponse<Yes>{
+        furhat.gesture(Gestures.BrowRaise)
         furhat.say("It was a great one right? Sweden won a total of 18 medals, 8 gold medals, 5 silver and 5 bronze.")
         furhat.gesture(Gestures.Smile)
         goto(Food)
@@ -130,7 +161,6 @@ val Olympics : State = state(Interaction){
     onResponse<No>{
         goto(NoOlympics)
     }
-
 }
 
 val NoOlympics : State = state(Interaction){
@@ -146,8 +176,9 @@ val NoOlympics : State = state(Interaction){
         furhat.say("Ok")
         goto(Food)
     }
-
 }
+
+
 
 val Food : State = state(Interaction){
     onEntry{
@@ -157,23 +188,70 @@ val Food : State = state(Interaction){
     onResponse<Yes>{
         furhat.say("I'm glad to hear that you liked it.")
         furhat.gesture(Gestures.Smile)
+        goto(EndInterview)
     }
     onResponse<No>{
         goto(BadFood)
     }
-
 }
 
 val BadFood : State = state(Interaction){
     onEntry{
-        furhat.say("I'm sorry to hear that you did not like it!")
+        furhat.say("I'm sorry to hear that you did not like it! Does this affect your appetite?")
         furhat.gesture(Gestures.Oh)
-        furhat.ask("What would be something you would like to eat?")
+        furhat.listen(timeout = 1)
+        furhat.ask("I see. Would you like to request any specific meal?")
         furhat.gesture(Gestures.Smile)
     }
+    onResponse<Yes>{
+        goto(RequestMeal)
+    }
+    onResponse<No>{
+        furhat.say("Ok.")
+        goto(Activity)
+    }
+}
+
+val RequestMeal : State = state(Interaction){
+    onEntry{
+        furhat.ask("Ok. What would you like to have?")
+        onResponse{
+            furhat.say("I will let the cook know. I hope you will have it soon.")
+            furhat.gesture(Gestures.Smile)
+            goto(Activity)
+        }
+
+    }
+}
+
+val Activity : State = state(Interaction){
+    onEntry{
+        furhat.ask("What kind of activity would you like to do for this week?")
+    }
+    onResponse<RequestOptions> {
+        furhat.say("We have ${Activity().optionsToText()}")
+        furhat.ask("Which one do you prefer?")
+    }
+    onResponse<Activity>{
+        furhat.say("Good choice! It will be brought to you later today.")
+        goto(EndInterview)
+    }
     onResponse{
-        furhat.say("I will let the cook know. I hope you will have it soon.")
-        furhat.gesture(Gestures.Smile)
+        furhat.say("I am not sure we can provide that. We have ${Activity().optionsToText()}")
+        furhat.ask("Would you like any of these?")
+    }
+    onResponse<None>{
+        furhat.say("Ok, you will get the chance to pick a new one next week")
+        goto(EndInterview)
+    }
+
+}
+
+val EndInterview : State = state(Interaction){
+    onEntry{
+        furhat.say("We have now reached the end of this interview. If there is something specific " +
+                "that you would like to talk about next time, please let the staff know. Until next time, take care!")
+        furhat.gesture(Gestures.BigSmile(strength = 2.0, duration = 1.0))
     }
 
 }
