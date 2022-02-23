@@ -197,14 +197,22 @@ val Food : State = state(Interaction){
 
 val BadFood : State = state(Interaction){
     onEntry{
-        furhat.say("I'm sorry to hear that you did not like it! Does this affect your appetite?")
+        furhat.ask("I'm sorry to hear that you did not like it! Does this affect your appetite?")
         furhat.gesture(Gestures.Oh)
-        furhat.listen(timeout = 1)
+    }
+    onResponse{
+        goto(RequestMeal)
+    }
+
+}
+
+val RequestMeal : State = state(Interaction){
+    onEntry{
         furhat.ask("I see. Would you like to request any specific meal?")
         furhat.gesture(Gestures.Smile)
     }
     onResponse<Yes>{
-        goto(RequestMeal)
+        goto(FoodOrder)
     }
     onResponse<No>{
         furhat.say("Ok.")
@@ -212,16 +220,17 @@ val BadFood : State = state(Interaction){
     }
 }
 
-val RequestMeal : State = state(Interaction){
+val FoodOrder : State = state(Interaction){
     onEntry{
         furhat.ask("Ok. What would you like to have?")
-        onResponse{
-            furhat.say("I will let the cook know. I hope you will have it soon.")
-            furhat.gesture(Gestures.Smile)
-            goto(Activity)
-        }
-
+        furhat.gesture(Gestures.Smile)
     }
+    onResponse{
+        furhat.say("I will let the cook know. I hope you will have it soon.")
+        furhat.gesture(furhatos.gestures.Gestures.Smile)
+        goto(Activity)
+    }
+
 }
 
 val Activity : State = state(Interaction){
