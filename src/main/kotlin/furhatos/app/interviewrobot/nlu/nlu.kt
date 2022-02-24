@@ -38,13 +38,19 @@ class Tired : EnumEntity(stemming = true, speechRecPhrases = true){
 
 class Activity : EnumEntity(stemming = true, speechRecPhrases = true) {
     override fun getEnum(lang: Language): List<String> {
-        return listOf("Book", "Movie", "Music", "Painting", "Puzzle")
+        return listOf("Book", "Movie", "Music", "Painting")
+    }
+}
+
+class Hobby : EnumEntity(stemming = true, speechRecPhrases = true) {
+    override fun getEnum(lang : Language): List<String>{
+        return listOf("Swimming pool", "Bingo", "Walking", "Bird watching", "Movies", "Movie theater")
     }
 }
 
 class RequestOptions: Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("What options do you have?", "What are my options?", "Where can I fly to?")
+        return listOf("What options do you have?", "What are my options?", "What activities do you have?", "I don't know")
     }
 }
 
@@ -54,3 +60,14 @@ class None : EnumEntity(stemming = true, speechRecPhrases = true){
     }
 }
 
+class Game : EnumEntity(stemming = true, speechRecPhrases = true){
+    override fun getEnum(lang: Language) : List<String>{
+        return listOf("Chess", "Bingo", "Card game")
+    }
+}
+
+class Exercises : EnumEntity(stemming = true, speechRecPhrases = true){
+    override fun getEnum(lang: Language) : List<String>{
+        return listOf("Run", "Running", "Walk", "Walking", "Cycling", "Swimming", "Yoga")
+    }
+}
