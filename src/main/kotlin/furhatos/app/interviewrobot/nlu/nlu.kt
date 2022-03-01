@@ -67,7 +67,8 @@ class Hobby : EnumEntity(stemming = true, speechRecPhrases = true) {
 
 class RequestOptions: Intent() {
     override fun getExamples(lang: Language): List<String> {
-        return listOf("What options do you have?", "What are my options?", "What activities do you have?", "I don't know")
+        return listOf("What options do you have?", "What are my options?", "What activities do you have?",
+            "I don't know", "choices", "what are my choices", "what games do you have?")
     }
 }
 

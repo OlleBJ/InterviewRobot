@@ -12,7 +12,7 @@ val Start : State = state(Interaction) {
         furhat.ask({
             +"Hello!"
             + Gestures.Smile(duration = 2.0, strength = 2.0)
-            +" How nice to see you. How are you today?" }, endSil = 1000)
+            +" How nice to see you. How are you today?" })
     }
 
 //    onInterimResponse(endSil = 500) {
@@ -25,14 +25,14 @@ val Start : State = state(Interaction) {
 //        )
 //    }
     onResponse<BadAndYou>{
-        furhat.gesture(Gestures.Oh(duration = 1.0, strength = 2.0))
+        furhat.gesture(Gestures.Oh(duration = 1.0, strength = 2.0), async = true)
         furhat.say("Oh, I am doing very well thank you, how kind of you to ask!")
         furhat.gesture(Gestures.BigSmile(duration = 1.8, strength = 1.8))
         furhat.say("I'm sorry to hear that you are not good.")
         goto(Problem)
     }
     onResponse<HowRU>{
-        furhat.gesture(Gestures.Oh(duration = 1.0, strength = 2.0))
+        furhat.gesture(Gestures.Oh(duration = 1.0, strength = 2.0), async = true)
         furhat.say("Oh, I am doing very well thank you, how kind of you to ask!")
         furhat.gesture(Gestures.BigSmile(duration = 1.8, strength = 1.8))
         goto(Visitors)
@@ -40,18 +40,19 @@ val Start : State = state(Interaction) {
 
 
     onResponse<Good>{
+        furhat.gesture(Gestures.BigSmile(duration = 1.8, strength = 1.5),async=true)
         furhat.say {
             +"That's good to hear!"
-            +Gestures.Smile(duration = 2.0, strength = 2.0)
         }
         goto(Visitors)
     }
     onResponse<Bad>{
-        furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0))
+        furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0),async=true)
         furhat.say("I'm sorry to hear that.")
         goto(Problem)
     }
     onResponse<Hobby>{
+        furhat.gesture(Gestures.Smile(duration = 1.8, strength = 1.8),async=true)
         furhat.say("${it.text}, how nice!" )
         goto(Visitors)
     }
@@ -60,6 +61,7 @@ val Start : State = state(Interaction) {
 
 val Problem : State = state(Interaction){
     onEntry{
+        furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0),async=true)
         furhat.ask("What is wrong?")
     }
     onResponse<Pain>{
@@ -72,9 +74,9 @@ val Problem : State = state(Interaction){
         furhat.say{
             +"I see. I hope you feel better soon."
         }
-            goto(Visitors)
-        }
+        goto(Visitors)
     }
+}
 
 val Family : State = state(Interaction){
     onEntry{
@@ -95,6 +97,7 @@ val Family : State = state(Interaction){
 
 val Doctor : State = state(Interaction){
     onEntry{
+        furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0),async=true)
         furhat.ask("I see. Would you like to see a doctor?")
     }
     onResponse<Yes>{
@@ -129,14 +132,15 @@ val HadVisitors : State = state(Interaction){
         furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
     }
     onResponse<Yes>{
+        furhat.gesture(Gestures.BigSmile(duration = 2.0, strength = 1.0),async=true)
         furhat.say("I am glad to hear that.")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
         goto(Exercise)
 
     }
     onResponse<No>{
+        furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0),async=true)
         furhat.say("Oh, I am sorry to hear that.")
-        furhat.gesture(Gestures.Oh(duration = 2.0, strength = 2.0))
+
         goto(Exercise)
     }
 }
@@ -170,6 +174,7 @@ val Exercise : State = state(Interaction){
         goto(WalkWithStaff)
     }
     onResponse<Exercises>{
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 1.0),async=true)
         furhat.say("${it.text}, how nice! I hope it felt good.")
         goto(Sleep)
     }
@@ -177,12 +182,13 @@ val Exercise : State = state(Interaction){
 
 val WhatExercise: State = state(Interaction){
     onEntry{
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0), async = true)
         furhat.ask("What did you do?")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
+
     }
     onResponse{
+        furhat.gesture(Gestures.BigSmile(duration = 2.0, strength = 1.0))
         furhat.say("That's nice! I'm glad to hear that you are staying active.")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
         goto(Sleep)
     }
 }
@@ -193,8 +199,8 @@ val WalkWithStaff: State = state(Interaction){
         furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
     }
     onResponse<Yes>{
+        furhat.gesture(Gestures.Smile(duration = 3.5, strength = 2.0),async=true)
         furhat.say("How nice! I will let the staff know so that it can be arranged.")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
         goto(Sleep)
     }
     onResponse<No>{
@@ -210,8 +216,8 @@ val Sleep : State = state(Interaction){
         furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
     }
     onResponse<Yes>{
+        furhat.gesture(Gestures.Smile(duration = 3.0, strength = 2.0),async=true)
         furhat.say("That's good to hear, sleep is important!")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
         goto(Olympics)
     }
     onResponse<No>{
@@ -230,6 +236,7 @@ val BadSleep : State = state(Interaction){
     }
     onResponse<No>{
         furhat.say("Okay, I hope it won't be a long lasting problem. If so, you can always tell me next time or contact a member of staff. It is important to sleep well. ")
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 1.0))
         goto(Olympics)
     }
 }
@@ -237,8 +244,8 @@ val BadSleep : State = state(Interaction){
 val Olympics : State = state(Interaction){
     onEntry{
         delay(1000)
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0),async=true)
         furhat.ask("Did you watch the Olympics on TV?")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
     }
     onResponse<Yes>{
         furhat.gesture(Gestures.BrowRaise(duration = 2.0, strength = 2.0))
@@ -253,12 +260,12 @@ val Olympics : State = state(Interaction){
 
 val NoOlympics : State = state(Interaction){
     onEntry{
-        furhat.ask("Do you want to know how many medals Sweden won?")
+        furhat.ask("I see. Sweden did great, do you want to know how many medals Sweden won?")
         furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
     }
     onResponse<Yes>{
+        furhat.gesture(Gestures.BigSmile(duration = 2.0, strength = 1.0),async=true)
         furhat.say("Sweden won a total of 18 medals, 8 gold medals, 5 silver and 5 bronze.")
-        furhat.say("Isn't that great?")
         goto(Food)
     }
     onResponse<No>{
@@ -270,12 +277,12 @@ val NoOlympics : State = state(Interaction){
 val Food : State = state(Interaction){
     onEntry{
         delay(1000)
-        furhat.ask("Anyway.. Have you liked the food here lately?")
+        furhat.ask("Have you liked the food here lately?")
         furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
     }
     onResponse<Yes>{
+        furhat.gesture(Gestures.Smile(duration = 3.0, strength = 1.5),async = true)
         furhat.say("I'm glad to hear that you liked it.")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
         goto(Activity)
     }
     onResponse<No>{
@@ -285,8 +292,8 @@ val Food : State = state(Interaction){
 
 val BadFood : State = state(Interaction){
     onEntry{
+        furhat.gesture(Gestures.Oh(duration = 2.0, strength = 2.0),async=true)
         furhat.ask("I'm sorry to hear that you didn't like it! Does this affect your appetite?")
-        furhat.gesture(Gestures.Oh(duration = 2.0, strength = 2.0))
     }
     onResponse{
         goto(RequestMeal)
@@ -311,11 +318,11 @@ val RequestMeal : State = state(Interaction){
 val FoodOrder : State = state(Interaction){
     onEntry{
         furhat.ask("Ok. What would you like to have?")
-        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 1.0))
     }
     onResponse{
+        furhat.gesture(Gestures.BigSmile(duration = 3.0, strength = 1.0))
         furhat.say("I will let the cook know. I hope you will have it soon.")
-        furhat.gesture(furhatos.gestures.Gestures.Smile(duration = 2.0, strength = 2.0))
         goto(Activity)
     }
 
@@ -324,19 +331,23 @@ val FoodOrder : State = state(Interaction){
 val Activity : State = state(Interaction){
     onEntry{
         delay(1000)
+        furhat.gesture(Gestures.Smile(duration = 3.0, strength = 1.5),async=true)
         furhat.ask("What kind of activity would you like to do for this week?")
     }
     onResponse<RequestOptions> {
         furhat.say("We have ${Activity().optionsToText()}")
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 1.5),async=true)
         furhat.ask("Which one do you prefer?")
     }
     onResponse<Activity>{
+        furhat.gesture(Gestures.BigSmile(duration = 2.0, strength = 1.0),async=true)
         furhat.say("Good choice! It will be brought to you later today.")
         goto(Game)
     }
     onResponse{
         furhat.say("I am not sure we can provide that. We have ${Activity().optionsToText()}")
         furhat.ask("Would you like any of these?")
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 1.0))
     }
     onResponse<None>{
         furhat.say("Ok, you will get the chance to pick a new one next week")
@@ -348,19 +359,24 @@ val Activity : State = state(Interaction){
 val Game : State = state(Interaction){
     onEntry{
         delay(1000)
+        furhat.gesture(Gestures.Smile(duration = 3.0, strength = 1.5),async=true)
         furhat.ask("Would you be interested in playing a game with me later?")
     }
     onResponse<RequestOptions> {
         furhat.say("We have ${Game().optionsToText()}")
         furhat.ask("Which one do you prefer?")
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0))
     }
     onResponse<Game>{
+        furhat.gesture(Gestures.BigSmile(duration = 2.0, strength = 1.2),async=true)
         furhat.say("${it.text}, good choice! I am looking forward to it. You'd better bring your A-game")
-        furhat.gesture(Gestures.Wink)
+        furhat.gesture(Gestures.Wink, async = true)
+        furhat.gesture(Gestures.Smile)
         goto(EndInterview)
     }
     onResponse<Yes>{
         furhat.say("How fun! We have ${Game().optionsToText()}")
+        furhat.gesture(Gestures.Smile(duration = 2.0, strength = 1.5),async=true)
         furhat.ask("Which one would you like to play?")
     }
     onResponse<No>{
@@ -368,6 +384,7 @@ val Game : State = state(Interaction){
         goto(EndInterview)
     }
     onResponse{
+        furhat.gesture(Gestures.ExpressSad(duration = 1.2, strength = 1.5))
         furhat.say("Unfortunately we do not have that game. We have ${Game().optionsToText()}")
         furhat.ask("Which one would you like to play?")
     }
@@ -379,7 +396,7 @@ val EndInterview : State = state(Interaction){
         delay(1000)
         furhat.say("We have now reached the end of this interview. If there is something specific " +
                 "that you would like to talk about next time, please let the staff know. Until then, take care!")
-        furhat.gesture(Gestures.Smile(strength = 2.0, duration = 3.0))
+        furhat.gesture(Gestures.BigSmile(strength = 1.0, duration = 3.0))
     }
 
 }

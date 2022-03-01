@@ -9,6 +9,7 @@ val Idle: State = state {
 
     init {
         furhat.voice = PollyNeuralVoice.Amy().also { it.style = PollyNeuralVoice.Style.Neutral}
+        furhat.param.endSilTimeout = 1000
 
         furhat.setTexture("Isabel")
         if (users.count > 0) {
