@@ -12,7 +12,7 @@ val Start : State = state(Interaction) {
         furhat.ask({
             +"Hello!"
             + Gestures.Smile(duration = 2.0, strength = 2.0)
-            +" How nice to see you. How are you today?" })
+            +" How nice to see you. How are you today?" }, endSil = 1000)
     }
 
 //    onInterimResponse(endSil = 500) {
@@ -24,6 +24,20 @@ val Start : State = state(Interaction) {
 //            { furhat.gesture(Gestures.Nod) }
 //        )
 //    }
+    onResponse<BadAndYou>{
+        furhat.gesture(Gestures.Oh(duration = 1.0, strength = 2.0))
+        furhat.say("Oh, I am doing very well thank you, how kind of you to ask!")
+        furhat.gesture(Gestures.BigSmile(duration = 1.8, strength = 1.8))
+        furhat.say("I'm sorry to hear that you are not good.")
+        goto(Problem)
+    }
+    onResponse<HowRU>{
+        furhat.gesture(Gestures.Oh(duration = 1.0, strength = 2.0))
+        furhat.say("Oh, I am doing very well thank you, how kind of you to ask!")
+        furhat.gesture(Gestures.BigSmile(duration = 1.8, strength = 1.8))
+        goto(Visitors)
+    }
+
 
     onResponse<Good>{
         furhat.say {
@@ -32,7 +46,6 @@ val Start : State = state(Interaction) {
         }
         goto(Visitors)
     }
-
     onResponse<Bad>{
         furhat.gesture(Gestures.ExpressSad(duration = 3.0, strength = 1.0))
         furhat.say("I'm sorry to hear that.")
@@ -42,6 +55,7 @@ val Start : State = state(Interaction) {
         furhat.say("${it.text}, how nice!" )
         goto(Visitors)
     }
+
 }
 
 val Problem : State = state(Interaction){

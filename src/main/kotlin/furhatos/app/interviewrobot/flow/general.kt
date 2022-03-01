@@ -1,13 +1,15 @@
 package furhatos.app.interviewrobot.flow
 
 import furhatos.flow.kotlin.*
+import furhatos.flow.kotlin.voice.PollyNeuralVoice
 import furhatos.flow.kotlin.voice.PollyVoice
 import furhatos.util.*
 
 val Idle: State = state {
 
     init {
-        furhat.voice = PollyVoice.Amy()
+        furhat.voice = PollyNeuralVoice.Amy().also { it.style = PollyNeuralVoice.Style.Neutral}
+
         furhat.setTexture("Isabel")
         if (users.count > 0) {
             furhat.attend(users.random)
