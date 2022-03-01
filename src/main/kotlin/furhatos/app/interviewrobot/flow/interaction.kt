@@ -42,12 +42,12 @@ val Start : State = state(Interaction) {
     onResponse<Good>{
         furhat.say {
             +"That's good to hear!"
-            +Gestures.Smile(duration = 5.0, strength = 2.0)
+            +Gestures.Smile(duration = 2.0, strength = 2.0)
         }
         goto(Visitors)
     }
     onResponse<Bad>{
-        furhat.gesture(Gestures.ExpressSad(duration = 3.0, strength = 1.0))
+        furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0))
         furhat.say("I'm sorry to hear that.")
         goto(Problem)
     }
