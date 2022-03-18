@@ -1,29 +1,19 @@
 package furhatos.app.interviewrobot.flow
-
 import furhatos.app.interviewrobot.nlu.*
 import furhatos.nlu.common.*
 import furhatos.flow.kotlin.*
 import furhatos.gestures.Gestures
 
+// initial state of the interaction
 val Start : State = state(Interaction) {
 
     onEntry {
-//        furhat.gesture(Gestures.Smile(duration = 5.0, strength = 2.0))
         furhat.ask({
             +"Hello!"
             + Gestures.Smile(duration = 2.0, strength = 2.0)
             +" How nice to see you. How are you today?" })
     }
 
-//    onInterimResponse(endSil = 500) {
-//        // We give some feedback to the user, "okay" or a nod gesture.
-//        random (
-//            // Note that we need to set async = true, since we are in an instant trigger
-//            { furhat.say("okay", async = true) },
-//            // Gestures are async per default, so no need to set the flag
-//            { furhat.gesture(Gestures.Nod) }
-//        )
-//    }
     onResponse<BadAndYou>{
         furhat.gesture(Gestures.Oh(duration = 1.0, strength = 2.0), async = true)
         furhat.say("Oh, I am doing very well thank you, how kind of you to ask!")
@@ -59,6 +49,7 @@ val Start : State = state(Interaction) {
 
 }
 
+// optional state, accessible through negative response
 val Problem : State = state(Interaction){
     onEntry{
         furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0),async=true)
@@ -78,6 +69,7 @@ val Problem : State = state(Interaction){
     }
 }
 
+// optional state, accessible through problem state
 val Family : State = state(Interaction){
     onEntry{
         furhat.ask("I see. Would you like to call your family?")
@@ -94,7 +86,7 @@ val Family : State = state(Interaction){
         goto(Visitors)
     }
 }
-
+// optional state, accessible through problem state
 val Doctor : State = state(Interaction){
     onEntry{
         furhat.gesture(Gestures.ExpressSad(duration = 2.0, strength = 1.0),async=true)
@@ -113,6 +105,7 @@ val Doctor : State = state(Interaction){
     }
 }
 
+// second state in core interaction
 val Visitors : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -126,6 +119,7 @@ val Visitors : State = state(Interaction){
     }
 }
 
+// branch state
 val HadVisitors : State = state(Interaction){
     onEntry{
         furhat.ask("Did you have a good time?")
@@ -145,6 +139,7 @@ val HadVisitors : State = state(Interaction){
     }
 }
 
+// branch state
 val HadNoVisitors : State = state(Interaction){
     onEntry{
         furhat.ask("Would you like to have visits more often?")
@@ -162,6 +157,7 @@ val HadNoVisitors : State = state(Interaction){
     }
 }
 
+// third state in core interaction
 val Exercise : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -180,6 +176,7 @@ val Exercise : State = state(Interaction){
     }
 }
 
+// branch state
 val WhatExercise: State = state(Interaction){
     onEntry{
         furhat.gesture(Gestures.Smile(duration = 2.0, strength = 2.0), async = true)
@@ -193,6 +190,7 @@ val WhatExercise: State = state(Interaction){
     }
 }
 
+// branch state
 val WalkWithStaff: State = state(Interaction){
     onEntry{
         furhat.ask("Would you like to take a walk with someone from the staff?")
@@ -209,6 +207,7 @@ val WalkWithStaff: State = state(Interaction){
     }
 }
 
+// fourth state in core interaction
 val Sleep : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -225,6 +224,7 @@ val Sleep : State = state(Interaction){
     }
 }
 
+// branch state
 val BadSleep : State = state(Interaction){
     onEntry{
         furhat.ask("Do you think it is temporary or should I contact the " +
@@ -240,7 +240,7 @@ val BadSleep : State = state(Interaction){
         goto(Olympics)
     }
 }
-
+// fifth state in core interaction
 val Olympics : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -258,6 +258,7 @@ val Olympics : State = state(Interaction){
     }
 }
 
+// branch state
 val NoOlympics : State = state(Interaction){
     onEntry{
         furhat.ask("I see. Sweden did great, do you want to know how many medals Sweden won?")
@@ -274,6 +275,7 @@ val NoOlympics : State = state(Interaction){
     }
 }
 
+// sixth state in core interaction
 val Food : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -290,6 +292,7 @@ val Food : State = state(Interaction){
     }
 }
 
+// branch state
 val BadFood : State = state(Interaction){
     onEntry{
         furhat.gesture(Gestures.Oh(duration = 2.0, strength = 2.0),async=true)
@@ -301,6 +304,7 @@ val BadFood : State = state(Interaction){
 
 }
 
+// branch state
 val RequestMeal : State = state(Interaction){
     onEntry{
         furhat.ask("I see. Would you like to request any specific meal?")
@@ -315,19 +319,15 @@ val RequestMeal : State = state(Interaction){
     }
 }
 
+// branch state
 val FoodOrder : State = state(Interaction){
     onEntry{
         furhat.ask("Ok. What would you like to have?")
         furhat.gesture(Gestures.Smile(duration = 2.0, strength = 1.0))
     }
-    onResponse{
-        furhat.gesture(Gestures.BigSmile(duration = 3.0, strength = 1.0))
-        furhat.say("I will let the cook know. I hope you will have it soon.")
-        goto(Activity)
-    }
-
 }
 
+// seventh state in core interaction
 val Activity : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -355,7 +355,7 @@ val Activity : State = state(Interaction){
     }
 }
 
-
+// eighth state in core interaction
 val Game : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -390,7 +390,7 @@ val Game : State = state(Interaction){
     }
 }
 
-
+// ninth and final state in core interaction
 val EndInterview : State = state(Interaction){
     onEntry{
         delay(1000)
@@ -398,5 +398,4 @@ val EndInterview : State = state(Interaction){
                 "that you would like to talk about next time, please let the staff know. Until then, take care!")
         furhat.gesture(Gestures.BigSmile(strength = 1.0, duration = 3.0))
     }
-
 }

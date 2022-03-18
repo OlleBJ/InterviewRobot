@@ -1,15 +1,13 @@
 package furhatos.app.interviewrobot.flow
-
 import furhatos.flow.kotlin.*
 import furhatos.flow.kotlin.voice.PollyNeuralVoice
-import furhatos.flow.kotlin.voice.PollyVoice
-import furhatos.util.*
 
 val Idle: State = state {
 
     init {
+        // set the face and voice of the robot and tweak end silence
         furhat.voice = PollyNeuralVoice.Amy().also { it.style = PollyNeuralVoice.Style.Neutral}
-        furhat.param.endSilTimeout = 1000
+        furhat.param.endSilTimeout = 1000   // increased from default 800ms
 
         furhat.setTexture("Isabel")
         if (users.count > 0) {
